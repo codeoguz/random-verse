@@ -49,21 +49,15 @@ translation=$(printf '%s' "$translation_data" | jq -r '.translations[0].text')
 # make sure ~/.cache/random-verse/ exists
 mkdir -p ~/.cache/random-verse
 
-reversed_arabic_text=$(echo "$arabic_text" | awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }')
 
 magick -background none -gravity center -pointsize 24 -size 320x \
-          pango:"$reversed_arabic_text" \
+          pango:"$arabic_text" \
           ~/.cache/random-verse/temp-verse.png
 
 kitty icat --align center ~/.cache/random-verse/temp-verse.png
 
 echo
 
-
-char *myText = "Hello, world!";
-int x, y;
-getmaxyx(stdscr, y, x);
-mvaddstr(stdscr, y / 2, (x / 2) - (strlen(mytext) / 2)), myText);
 
 # Center the text
 COLS=$(tput cols)
@@ -76,19 +70,7 @@ center_text() {
 
 center_text "$translation"
 
+echo 
 
-
-
-# echo "$translation" | fold -w 50
-
-# center_text() {
-#     local text="$1"
-#     local text_length=${#text}
-#     local max_characters_per_line=
-#     local folded_text=$(echo "$text" | fold -w $max_characters_per_line)
-#     local padding_length=$(((max_characters_per_line - text_length) / 2))
-#     printf "%*s%s%*s\n" $padding_length "" "$folded_text" $padding_length ""
-# }
-
-center_text "Surah: $(echo $verse_key | cut -d: -f1)"
-center_text "Ayah: $(echo $verse_key | cut -d: -f2)"
+center_text "Sure: $(echo $verse_key | cut -d: -f1)"
+center_text "Ayet: $(echo $verse_key | cut -d: -f2)"
